@@ -1,0 +1,35 @@
+sudo yum update
+sudo yum install java-1.8.0-openjdk-src.x86_64
+sudo yum install java-devel
+sudo alternatives --config java
+sudo sh -c "echo export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.322.b06-2.el8_5.x86_64/jre >> /etc/envirnoment"
+sudo yum install wget
+sudo yum install openssh-server
+sudo systemctl status sshd
+sudo systemctl start sshd
+sudo systemctl enable sshd
+sudo yum install vim
+##Download the psdh tarball from this url https://code.google.com/archive/p/pdsh/downloads
+##Go to the location where the tar file is! then unzip and untar it!
+bunzip2 pdsh-2.28.tar.bz2
+tar -xvf pdsh-2.28.tar
+sudo yum install autoconf.noarch
+sudo yum install gcc
+#Go to the extracted file:
+./configure
+sudo make 
+sudo make check 
+sudo make install
+sudo useradd hduser
+sudo passwd hduser
+sudo visudo
+#In this file add :
+hduser  ALL=(ALL) NOPASSWD:ALL
+#Then go to hduser
+su - hduser
+#Inside hduser
+sudo hostnamectl set-hostname NameNode
+sudo hostname NameNode
+
+#####Add network adapters to the virtual machine application and add those to all the virtual machines you want to keep in the cluster
+#####Then go inside each VM and connect to the enp0s8 wired connection which will enable ip addresses to all the virtual machines
