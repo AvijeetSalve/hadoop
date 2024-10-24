@@ -105,8 +105,16 @@ export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib/native"
         <name>dfs.replication</name>
         <value>2</value>
     </property>
+<property>
+        <name>dfs.hosts.exclude</name>
+        <value>/usr/local/hadoop/etc/hadoop/dfs.hosts.exclude</value>
+    </property>
+<property>
+        <name>dfs.namenode.acls.enabled</name>
+        <value>true</value>
+    </property>
 ########################################################################################
-
+(now add dfs.hosts.enabled file and write the name of the node you want to decomission) 
 
 
 
@@ -130,7 +138,7 @@ export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib/native"
 ########################################################################################
 <property>
         <name>yarn.resourcemanager.hostname</name>
-        <value>master</value>
+        <value>NameNode</value>
     </property>
 #######################################################################################
 
@@ -154,7 +162,7 @@ in all the datanodes
 In datanode, core-site.xml:-
 <property>
         <name>fs.defaultFS</name>
-        <value>hdfs://master:9000</value>
+        <value>hdfs://NameNode:9000</value>
     </property>
 
 
@@ -212,3 +220,34 @@ In datanode, yarn-site.xml:-
 
 In datanode, aal nodes workers file will have:-
 localhost 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+hdfs dfs -ls /
+hdfs dfs -mkdir /dirname
+hdfs dfs -touch /dirname/filename
+hdfs dfsadmin -report
+hdfs dfsadmin -refreshNodes
