@@ -2,7 +2,7 @@ sudo yum update
 sudo yum install java-1.8.0-openjdk-src.x86_64
 sudo yum install java-devel
 sudo alternatives --config java
-sudo sh -c "echo export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.322.b06-2.el8_5.x86_64/jre >> /etc/envirnoment"
+sudo sh -c "echo export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.362.b09-4.el9.x86_64/jre >> /etc/envirnoment"
 sudo yum install wget
 sudo yum install openssh-server
 sudo systemctl status sshd
@@ -33,3 +33,111 @@ sudo hostname NameNode
 
 #####Add network adapters to the virtual machine application and add those to all the virtual machines you want to keep in the cluster
 #####Then go inside each VM and connect to the enp0s8 wired connection which will enable ip addresses to all the virtual machines
+
+
+
+
+##Then edit the .bashrc file
+sudo vi ~/.bashrc
+##In this file write this given code before "unset rc":-
+#JAVA
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+export JRE_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
+#Hadoop Environment Variables
+export HADOOP_HOME=/usr/local/hadoop
+export HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop
+export HADOOP_LOG_DIR=$HADOOP_HOME/logs
+export HADOOP_MAPRED_HOME=$HADOOP_HOME
+# Add Hadoop bin/ directory to PATH
+export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin
+export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
+export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib/native"
+export PDSH_RCMD_TYPE=ssh
+
+sudo source ~/.bashrc
+cd
+wget https://dlcdn.apache.org/hadoop/common/hadoop-3.2.4/hadoop-3.2.4.tar.gz
+sudo mkdir /usr/local/hadoop
+tar -xzvf hadoop-3.2.4.tar.gz
+sudo mv hadoop-3.2.4/* /usr/local/hadoop
+sudo chown -R hduser:hduser /usr/local/hadoop
+sudo chmod 755 -R /usr/local/hadoop
+#####now edit the hadoop-env.sh by going to /usr/local/hadoop/etc/hadoop and paste the code:-
+########################################################################################
+#JAVA
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+export JRE_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
+#Hadoop Environment Variables
+export HADOOP_HOME=/usr/local/hadoop
+export HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop
+export HADOOP_LOG_DIR=$HADOOP_HOME/logs
+export HDFS_NAMENODE_USER=hduser
+export HDFS_DATANODE_USER=hduser
+export HDFS_SECONDARYNAMENODE_USER=hduser
+export YARN_RESOURCEMANAGER_USER=hduser
+export YARN_NODEMANAGER_USER=hduser
+export YARN_NODEMANAGER_USER=hduser
+# Add Hadoop bin/ directory to PATH
+export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin
+export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
+export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib/native"
+########################################################################################
+
+
+
+#####now edit the core-site.sh by going to /usr/local/hadoop/etc/hadoop and paste the code:-
+########################################################################################
+<property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://Namenode:9000</value>
+    </property>
+########################################################################################
+
+
+
+#####now edit the hdfs-site.sh by going to /usr/local/hadoop/etc/hadoop and paste the code:-
+########################################################################################
+<property>
+        <name>dfs.name.dir</name>
+        <value>/usr/local/hadoop/hd-data/nn</value>
+    </property>
+    <property>
+        <name>dfs.replication</name>
+        <value>2</value>
+    </property>
+########################################################################################
+
+
+
+
+#####now edit the mapred-site.sh by going to /usr/local/hadoop/etc/hadoop and paste the code:-
+########################################################################################
+<property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+    </property>
+    <property>
+        <name>mapreduce.application.classpath</name>
+        <value>$HADOOP_MAPRED_HOME/share/hadoop/mapreduce/*:$HADOOP_MAPRED_HOME/share/hadoop/mapreduce/lib/*</value>
+    </property>
+#######################################################################################
+
+
+
+
+
+#####now edit the yarn-site.sh by going to /usr/local/hadoop/etc/hadoop and paste the code:-
+########################################################################################
+<property>
+        <name>yarn.resourcemanager.hostname</name>
+        <value>master</value>
+    </property>
+#######################################################################################
+
+
+
+#####now edit the workers by going to /usr/local/hadoop/etc/hadoop and paste the code:-
+########################################################################################
+datanode name
+datanode name
+#######################################################################################
