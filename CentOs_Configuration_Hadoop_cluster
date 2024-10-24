@@ -225,6 +225,13 @@ localhost
 
 
 
+sudo find / -name java
+wget https://dlcdn.apache.org/hadoop/common/hadoop-3.2.4/hadoop-3.2.4.tar.gz
+ssh-copy-id -i .ssh/id_rsa.pub hduser@DN3
+
+
+scp /usr/local/hadoop/etc/hadoop/hadoop-env.sh  hduser@DN2:/usr/local/hadoop/etc/hadoop/hadoop-env.sh 
+scp .bashrc hduser@DN3:/home/hduser/.bashrc
 
 
 
@@ -239,13 +246,9 @@ localhost
 
 
 
-
-
-
-
-
-
-
+hadoop namenode -format
+start-dfs.sh
+start-yarn.sh
 hdfs dfs -ls /
 hdfs dfs -mkdir /dirname
 hdfs dfs -touch /dirname/filename
