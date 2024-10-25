@@ -1,6 +1,6 @@
 Open LDAP and Kerberos
 
-1. yum install kr5-server -y
+1. yum install krb5-server -y
 
 2. edit /etc/krb5.conf
    uncomment all lines.
