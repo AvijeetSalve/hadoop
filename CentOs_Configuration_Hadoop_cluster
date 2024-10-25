@@ -67,8 +67,17 @@ sudo find / -name java ##Find the java file which is in the bin of a file then c
 For eg. this files
 /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.362.b09-4.el9.x86_64/jre/bin/java
 ###
+
+
+
+#Do these 2 steps on all the nodes:-
 sudo systemctl stop firewalld.service
 sudo systemctl disable firewalld.service
+
+
+
+
+
 #####now edit the hadoop-env.sh by going to /usr/local/hadoop/etc/hadoop and paste the code:-
 ########################################################################################
 #JAVA
