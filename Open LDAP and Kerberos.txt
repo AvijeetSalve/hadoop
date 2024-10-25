@@ -21,7 +21,7 @@ Save the file.
 4. Edit /var/kerberos/krb5kdc/kadm5.acl
 	Change from example.com to demo.lab
 save the file.
-
+####go to /etc/hosts and add the ip addresses of the user
 5. Create the krb5 database
    kdb5_util create -s -r demo.lab 
 Enter KDC database master key (Remember it)
